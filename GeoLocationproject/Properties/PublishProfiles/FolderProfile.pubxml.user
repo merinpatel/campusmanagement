@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\patel\Documents\Buildfolder\apibuild</_PublishTargetUrl>
+    <History>True|2026-08-16T14:12:12.6745677Z;True|2026-08-16T17:32:53.1204705+05:30;True|2026-08-16T17:30:26.5245888+05:30;False|2026-08-16T17:28:52.3680195+05:30;False|2026-08-16T17:27:12.2742505+05:30;False|2026-08-16T17:26:03.0345620+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=MERIN\MSSQLSERVER01%3bDatabase=SmartBusTracking%3bIntegrated Security=True%3bTrustServerCertificate=True%3bEncrypt=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

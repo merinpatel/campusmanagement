@@ -1,0 +1,50 @@
+/* Target the main table container */
+:host ::ng-deep .p-datatable {
+  border: 1px solid #e0e0e0; /* Light outer border */
+  border-radius: 8px; /* Soft rounded corners */
+  overflow: hidden; /* Ensures borders/shadows are contained */
+}
+
+/* Style the header row */
+:host ::ng-deep .p-datatable-thead > tr > th {
+  background-color: #f7f7f7; /* Very light grey header background */
+  color: #333; /* Darker text for header */
+  font-weight: 600; /* Slightly bolder header text */
+  padding: 1rem 1.25rem; /* More vertical padding */
+  border-bottom: 2px solid #e0e0e0; /* Stronger line separating header from body */
+}
+
+/* Style the body cells */
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: 1rem 1.25rem; /* Match padding for content cells */
+  border-bottom: 1px solid #f0f0f0; /* Very faint line between rows */
+  color: #555; /* Medium grey text color */
+}
+
+/* Remove the border from the very last row */
+:host ::ng-deep .p-datatable-tbody > tr:last-child > td {
+  border-bottom: none;
+}
+
+/* Remove ALL default spacing & scrolling issues */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;          /* ⭐ prevents page scroll */
+  font-family: Arial, sans-serif;
+}
+
+/* Angular root must fill screen */
+app-root {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Leaflet container hard fix */
+.leaflet-container {
+  height: 100vh !important;
+  width: 100vw !important;
+}

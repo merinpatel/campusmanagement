@@ -1,0 +1,38 @@
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header">
+            Driver GPS Tracking
+        </div>
+
+        <div class="card-body">
+
+            <label>Bus ID</label>
+
+            <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="busId">
+
+            <br>
+
+            <button
+                class="btn btn-success me-2"
+                (click)="startTracking()">
+
+                Start Tracking
+            </button>
+
+            <button
+                class="btn btn-danger"
+                (click)="stopTracking()">
+
+                Stop Tracking
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

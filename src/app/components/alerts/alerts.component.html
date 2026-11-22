@@ -1,0 +1,23 @@
+<h2>Bus Alerts</h2>
+@if(this.alerts.length)
+{
+    
+<table style="border: 1;">
+  <tr>
+    <th>Bus</th>
+    <th>Type</th>
+    <th>Message</th>
+    <th>Time</th>
+  </tr>
+@for( a of alerts ;track a.busId)
+{
+    
+  <tr >
+    <td>{{ a.busId }}</td>
+    <td>{{ a.alertType }}</td>
+    <td>{{ a.message }}</td>
+    <td>{{ a.createdAt | date:'short' }}</td>
+  </tr>
+}
+</table>
+}

@@ -1,0 +1,98 @@
+<section class="management-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Fleet setup</p>
+      <h2>Bus Management</h2>
+    </div>
+    <div class="count-pill">{{ filteredBuses().length }} buses</div>
+  </header>
+
+  <div class="management-grid">
+    <section class="list-panel">
+      <div class="toolbar">
+        <div class="filter-group">
+          <button type="button" (click)="clearFilter()">All</button>
+          <button type="button" (click)="filterActive(true)">Active</button>
+          <button type="button" (click)="filterActive(false)">Inactive</button>
+        </div>
+
+        <input
+          type="search"
+          placeholder="Search bus or route"
+          (input)="search($any($event.target).value)"
+        />
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Bus Number</th>
+              <th>Capacity</th>
+              <th>Route</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (bus of filteredBuses(); track bus.busId || bus.busNumber) {
+              <tr>
+                <td><strong>{{ bus.busNumber }}</strong></td>
+                <td>{{ bus.capacity }}</td>
+                <td>{{ bus.routeName }}</td>
+                <td>
+                  <span class="status" [class.inactive]="!bus.isActive">
+                    {{ bus.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="action-row">
+                    <button type="button" class="ghost" (click)="edit(bus)">Edit</button>
+                    <button type="button" class="danger" (click)="delete(bus.busId!)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="empty">No buses found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="form-panel">
+      <h3>{{ isEditMode ? 'Edit Bus' : 'Add Bus' }}</h3>
+
+      <form [formGroup]="form">
+        <label>
+          Bus Number
+          <input placeholder="GJ-01-BS-102" formControlName="busNumber" />
+        </label>
+
+        <label>
+          Capacity
+          <input type="number" placeholder="40" formControlName="capacity" />
+        </label>
+
+        <label>
+          Route Name
+          <input placeholder="Ahmedabad Central Route" formControlName="routeName" />
+        </label>
+
+        <label class="check-row">
+          <input type="checkbox" formControlName="isActive" />
+          Active bus
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="primary" (click)="save()" [disabled]="form.invalid">
+            {{ isEditMode ? 'Update Bus' : 'Save Bus' }}
+          </button>
+          <button type="button" class="secondary" (click)="resetForm()">Clear</button>
+        </div>
+      </form>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,105 @@
+<section class="management-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Student transport</p>
+      <h2>Student Management</h2>
+    </div>
+    <div class="count-pill">{{ filteredStudents().length }} students</div>
+  </header>
+
+  <div class="management-grid">
+    <section class="list-panel">
+      <div class="toolbar">
+        <div class="filter-group">
+          <button type="button" (click)="clearFilter()">All</button>
+          <button type="button" (click)="filterActive(true)">Active</button>
+          <button type="button" (click)="filterActive(false)">Inactive</button>
+        </div>
+
+        <input
+          type="search"
+          placeholder="Search student, roll no, pickup"
+          (input)="search($any($event.target).value)"
+        />
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Roll Number</th>
+              <th>Parent Phone</th>
+              <th>Pickup Point</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of filteredStudents(); track s.studentId) {
+              <tr>
+                <td><strong>{{ s.name }}</strong></td>
+                <td>{{ s.rollNumber }}</td>
+                <td>{{ s.parentPhone }}</td>
+                <td>{{ s.pickupPoint }}</td>
+                <td>
+                  <span class="status" [class.inactive]="!s.isActive">
+                    {{ s.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="action-row">
+                    <button type="button" class="ghost" (click)="edit(s)">Edit</button>
+                    <button type="button" class="danger" (click)="delete(s.studentId!)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty">No students found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="form-panel">
+      <h3>{{ isEditMode ? 'Edit Student' : 'Add Student' }}</h3>
+
+      <form [formGroup]="form">
+        <label>
+          Student Name
+          <input placeholder="Student name" formControlName="name" />
+        </label>
+
+        <label>
+          Roll Number
+          <input placeholder="ROLL-101" formControlName="rollNumber" />
+        </label>
+
+        <label>
+          Parent Phone
+          <input placeholder="9876543210" formControlName="parentPhone" />
+        </label>
+
+        <label>
+          Pickup Point
+          <input placeholder="Pickup location" formControlName="pickupPoint" />
+        </label>
+
+        <label class="check-row">
+          <input type="checkbox" formControlName="isActive" />
+          Active student
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="primary" (click)="save()" [disabled]="form.invalid">
+            {{ isEditMode ? 'Update Student' : 'Save Student' }}
+          </button>
+          <button type="button" class="secondary" (click)="resetForm()">Clear</button>
+        </div>
+      </form>
+    </aside>
+  </div>
+</section>

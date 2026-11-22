@@ -1,0 +1,31 @@
+{
+  "/api": {
+    "target": "http://localhost:5044",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/trackinghub": {
+    "target": "http://localhost:5044",
+    "secure": false,
+    "changeOrigin": true,
+    "ws": true,
+    "logLevel": "debug"
+  },
+  "/WeatherForecast": {
+    "target": "http://localhost:5044", 
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/Crud":
+  {
+    "target": "http://localhost:5044", 
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+
+  }
+
+  
+}

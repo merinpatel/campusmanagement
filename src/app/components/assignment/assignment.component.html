@@ -1,0 +1,125 @@
+<section class="assignment-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Route allocation</p>
+      <h2>Assign Bus, Driver, and Student</h2>
+    </div>
+    <div class="count-strip">
+      <span>{{ buses.length }} buses</span>
+      <span>{{ drivers.length }} drivers</span>
+      <span>{{ students.length }} students</span>
+    </div>
+  </header>
+
+  @if (message()) {
+    <div class="notice" [class.error]="messageType() === 'error'">
+      {{ message() }}
+    </div>
+  }
+
+  <div class="assignment-grid">
+    <section class="assign-panel">
+      <h3>Assign Driver to Bus</h3>
+
+      <form [formGroup]="driverForm">
+        <label>
+          Bus
+          <select formControlName="busId">
+            <option [ngValue]="null">Select Bus</option>
+            @for (b of buses; track b.busId) {
+              <option [ngValue]="b.busId">{{ b.busNumber }} - {{ b.routeName }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Driver
+          <select formControlName="driverId">
+            <option [ngValue]="null">Select Driver</option>
+            @for (d of drivers; track d.driverId) {
+              <option [ngValue]="d.driverId">{{ d.name }} - {{ d.phone }}</option>
+            }
+          </select>
+        </label>
+
+        <button type="button" class="primary" (click)="assignDriver()" [disabled]="driverForm.invalid">
+          Assign Driver
+        </button>
+      </form>
+    </section>
+
+    <section class="assign-panel">
+      <h3>Assign Student to Bus</h3>
+
+      <form [formGroup]="studentForm">
+        <label>
+          Bus
+          <select formControlName="busId">
+            <option [ngValue]="null">Select Bus</option>
+            @for (b of buses; track b.busId) {
+              <option [ngValue]="b.busId">{{ b.busNumber }} - {{ b.routeName }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Student
+          <select formControlName="studentId">
+            <option [ngValue]="null">Select Student</option>
+            @for (s of students; track s.studentId) {
+              <option [ngValue]="s.studentId">{{ s.name }} - {{ s.pickupPoint }}</option>
+            }
+          </select>
+        </label>
+
+        <button type="button" class="primary" (click)="assignStudent()" [disabled]="studentForm.invalid">
+          Assign Student
+        </button>
+      </form>
+    </section>
+  </div>
+
+  <div class="assigned-grid">
+    <section class="assigned-panel">
+      <h3>Driver Assignments</h3>
+
+      @for (driver of drivers; track driver.driverId) {
+        <article class="assignment-row">
+          <div>
+            <strong>{{ driver.name }}</strong>
+            <span>{{ driver.phone }}</span>
+          </div>
+          <div class="assignment-target">
+            <span>{{ busLabel(driver.assignedBusId) }}</span>
+            @if (driver.assignedBusId) {
+              <button type="button" class="ghost" (click)="removeDriver(driver.driverId)">Remove</button>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="empty">No drivers available.</div>
+      }
+    </section>
+
+    <section class="assigned-panel">
+      <h3>Student Assignments</h3>
+
+      @for (student of students; track student.studentId) {
+        <article class="assignment-row">
+          <div>
+            <strong>{{ student.name }}</strong>
+            <span>{{ student.pickupPoint }}</span>
+          </div>
+          <div class="assignment-target">
+            <span>{{ busLabel(student.assignedBusId) }}</span>
+            @if (student.assignedBusId) {
+              <button type="button" class="ghost" (click)="removeStudent(student.studentId)">Remove</button>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="empty">No students available.</div>
+      }
+    </section>
+  </div>
+</section>

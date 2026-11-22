@@ -1,0 +1,97 @@
+<section class="tracking-shell">
+  <div class="tracking-header">
+    <div>
+      <p class="eyebrow">Live operations</p>
+      <h2>Smart Bus Tracking</h2>
+    </div>
+
+    <div class="summary-strip">
+      <div>
+        <span>{{ buses().length }}</span>
+        <small>Active buses</small>
+      </div>
+      <div>
+        <span>{{ alertCount() }}</span>
+        <small>Live alerts</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="tracking-layout">
+    <div class="map-panel">
+      <div id="liveBusMap" class="live-map"></div>
+
+      @if (!buses().length) {
+        <div class="map-empty-state">
+          Waiting for live bus data...
+        </div>
+      }
+    </div>
+
+    <aside class="side-panel">
+      <section class="panel-section">
+        <div class="section-title">
+          <h3>Bus Fleet</h3>
+          <span>{{ buses().length }}</span>
+        </div>
+
+        @if (buses().length) {
+          <div class="bus-list">
+            @for (bus of buses(); track bus.busId) {
+              <article class="bus-card">
+                <div class="bus-card-header">
+                  <strong>Bus {{ bus.busId }}</strong>
+                  <span class="status" [class.stopped]="!bus.speed">
+                    {{ bus.speed > 0 ? 'Moving' : 'Stopped' }}
+                  </span>
+                </div>
+
+                <div class="bus-meta">
+                  <span>Speed</span>
+                  <strong>{{ bus.speed || 0 }} km/h</strong>
+                </div>
+                <div class="bus-meta">
+                  <span>Latitude</span>
+                  <strong>{{ bus.latitude }}</strong>
+                </div>
+                <div class="bus-meta">
+                  <span>Longitude</span>
+                  <strong>{{ bus.longitude }}</strong>
+                </div>
+                <div class="bus-meta">
+                  <span>Last update</span>
+                  <strong>{{ bus.recordedAt | date:'mediumTime' }}</strong>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="empty-panel">No bus signal received yet.</div>
+        }
+      </section>
+
+      <section class="panel-section">
+        <div class="section-title alert-title">
+          <h3>Alerts</h3>
+          <span>{{ alertCount() }}</span>
+        </div>
+
+        @if (alerts().length) {
+          <div class="alert-list">
+            @for (alert of alerts(); track alert.alertId || alert.createdAt) {
+              <article class="alert-card">
+                <div>
+                  <strong>Bus {{ alert.busId }}</strong>
+                  <p>{{ alert.message }}</p>
+                </div>
+                <time>{{ alert.createdAt | date:'mediumTime' }}</time>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="empty-panel">No alerts yet.</div>
+        }
+      </section>
+    </aside>
+  </div>
+</section>

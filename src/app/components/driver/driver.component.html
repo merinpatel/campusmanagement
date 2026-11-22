@@ -1,0 +1,100 @@
+<section class="management-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">People setup</p>
+      <h2>Driver Management</h2>
+    </div>
+    <div class="count-pill">{{ filteredDrivers().length }} drivers</div>
+  </header>
+
+  <div class="management-grid">
+    <section class="list-panel">
+      <div class="toolbar">
+        <div class="filter-group">
+          <button type="button" (click)="clearFilter()">All</button>
+          <button type="button" (click)="filterActive(true)">Active</button>
+          <button type="button" (click)="filterActive(false)">Inactive</button>
+        </div>
+
+        <input
+          type="search"
+          placeholder="Search driver or phone"
+          (input)="search($any($event.target).value)"
+        />
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>License</th>
+              <th>Assigned Bus</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (d of filteredDrivers(); track d.driverId) {
+              <tr>
+                <td><strong>{{ d.name }}</strong></td>
+                <td>{{ d.phone }}</td>
+                <td>{{ d.licenseNumber }}</td>
+                <td>{{ d.assignedBus?.busNumber || d.assignedBusId || 'Not assigned' }}</td>
+                <td>
+                  <span class="status" [class.inactive]="!d.isActive">
+                    {{ d.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="action-row">
+                    <button type="button" class="ghost" (click)="edit(d)">Edit</button>
+                    <button type="button" class="danger" (click)="delete(d.driverId!)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty">No drivers found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="form-panel">
+      <h3>{{ isEditMode ? 'Edit Driver' : 'Add Driver' }}</h3>
+
+      <form [formGroup]="form">
+        <label>
+          Driver Name
+          <input placeholder="Driver name" formControlName="name" />
+        </label>
+
+        <label>
+          Phone Number
+          <input placeholder="9876543210" formControlName="phone" />
+        </label>
+
+        <label>
+          License Number
+          <input placeholder="GJ0120260001" formControlName="licenseNumber" />
+        </label>
+
+        <label class="check-row">
+          <input type="checkbox" formControlName="isActive" />
+          Active driver
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="primary" (click)="save()" [disabled]="form.invalid">
+            {{ isEditMode ? 'Update Driver' : 'Save Driver' }}
+          </button>
+          <button type="button" class="secondary" (click)="resetForm()">Clear</button>
+        </div>
+      </form>
+    </aside>
+  </div>
+</section>
